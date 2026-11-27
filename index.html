@@ -78,7 +78,7 @@
       <div class="modal-head"><div><span class="eyebrow">CATAT UANG</span><h3>Transaksi baru</h3></div><button type="button" class="close-btn" data-close="transactionDialog">×</button></div>
       <label>Jenis transaksi</label><div class="type-switch"><label><input type="radio" name="type" value="income" checked><span>↗ Uang masuk</span></label><label><input type="radio" name="type" value="expense"><span>↘ Uang keluar</span></label></div>
       <label for="txTitle">Nama transaksi</label><input id="txTitle" required maxlength="45" placeholder="Contoh: Uang saku mingguan">
-      <label for="txAmount">Nominal (Rp)</label><input id="txAmount" required type="number" min="1" step="1" placeholder="25000">
+      <label for="txAmount">Nominal</label><input id="txAmount" required type="text" inputmode="decimal" placeholder="15 = Rp15.000">
       <label for="txCategory">Kategori</label><select id="txCategory"><option>Uang saku</option><option>Makanan</option><option>Transportasi</option><option>Sekolah</option><option>Hiburan</option><option>Tabungan</option><option>Lainnya</option></select>
       <label for="txDate">Tanggal</label><input id="txDate" type="date" required>
       <button class="primary-btn full-btn" type="submit">Simpan transaksi</button>
@@ -89,8 +89,8 @@
     <form id="goalForm">
       <div class="modal-head"><div><span class="eyebrow">RENCANA KECIL</span><h3>Target baru</h3></div><button type="button" class="close-btn" data-close="goalDialog">×</button></div>
       <label for="goalName">Nama target</label><input id="goalName" required maxlength="40" placeholder="Contoh: Beli buku">
-      <label for="goalAmount">Target nominal (Rp)</label><input id="goalAmount" type="number" min="1" required placeholder="150000">
-      <label for="goalSaved">Sudah terkumpul (Rp)</label><input id="goalSaved" type="number" min="0" value="0" required>
+      <label for="goalAmount">Target nominal</label><input id="goalAmount" type="text" inputmode="decimal" required placeholder="150 = Rp150.000 / 1jt = Rp1.000.000">
+      <label for="goalSaved">Sudah terkumpul</label><input id="goalSaved" type="text" inputmode="decimal" value="0" required placeholder="Contoh: 15 atau 1jt"><small class="input-hint">Ketik 15 untuk Rp15.000, 150 untuk Rp150.000, atau 1jt untuk Rp1.000.000.</small>
       <button class="primary-btn full-btn" type="submit">Buat target</button>
     </form>
   </dialog>
