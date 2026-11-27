@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101b2d">
+  <meta name="description" content="Catatan uang saku dan tabungan pelajar.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <title>Saku — Keuangan Pelajar</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">s.</span><span>Saku<span class="brand-dot">.</span></span></a>
+      <p class="side-label">MENU UTAMA</p>
+      <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span> Ringkasan</button>
+      <button class="nav-item" data-view="transactions"><span class="nav-icon">↕</span> Transaksi</button>
+      <button class="nav-item" data-view="goals"><span class="nav-icon">◎</span> Target tabungan</button>
+      <div class="sidebar-bottom">
+        <div class="tip-card"><span class="tip-spark">✦</span><b>Tips kecil</b><p>Konsisten mencatat lebih penting daripada nominal yang besar.</p></div>
+        <span class="side-foot">Dibuat untuk mengatur uang saku ✳</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow" id="todayLabel">KEUANGAN PRIBADI</div><h1 id="pageTitle">Ringkasan</h1></div>
+        <button class="avatar" title="Profil">H</button>
+      </header>
+
+      <section class="view active" id="overview">
+        <div class="welcome-row">
+          <div><p class="muted">Halo! Yuk cek kondisi uang sakumu.</p><h2>Atur uangmu, <em>atur rencanamu.</em></h2></div>
+          <button class="primary-btn" id="addTop">＋ Catat transaksi</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card balance-card"><div class="stat-head"><span>Total saldo</span><span class="stat-icon">◈</span></div><div class="amount" id="balance">Rp0</div><div class="stat-note"><span class="tiny-dot"></span> Saldo dari semua catatan</div></article>
+          <article class="stat-card income-card"><div class="stat-head"><span>Uang masuk</span><span class="stat-icon">↗</span></div><div class="amount" id="income">Rp0</div><div class="stat-note">Bulan ini</div></article>
+          <article class="stat-card expense-card"><div class="stat-head"><span>Uang keluar</span><span class="stat-icon">↘</span></div><div class="amount" id="expense">Rp0</div><div class="stat-note">Bulan ini</div></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel activity-panel">
+            <div class="panel-heading"><div><span class="eyebrow">AKTIVITAS</span><h3>Transaksi terbaru</h3></div><button class="text-btn" data-goto="transactions">Lihat semua ↗</button></div>
+            <div id="recentList" class="transaction-list"><div class="empty-state">Belum ada transaksi. Catat uang masuk atau keluar pertamamu.</div></div>
+          </section>
+          <section class="panel budget-panel">
+            <div class="panel-heading"><div><span class="eyebrow">KEBIASAAN BAIK</span><h3>Ringkasan bulan ini</h3></div><span class="round-icon">✦</span></div>
+            <div class="budget-graphic"><div class="donut" id="donut"><div><b id="spentPercent">0%</b><small>terpakai</small></div></div></div>
+            <div class="legend-row"><span><i class="legend income-legend"></i> Masuk</span><b id="legendIncome">Rp0</b></div>
+            <div class="legend-row"><span><i class="legend expense-legend"></i> Keluar</span><b id="legendExpense">Rp0</b></div>
+            <p class="small-note">Angka ini dihitung dari transaksi yang kamu catat pada bulan berjalan.</p>
+          </section>
+        </div>
+        <section class="panel goal-preview">
+          <div class="panel-heading"><div><span class="eyebrow">LANGKAH BERIKUTNYA</span><h3>Target tabungan</h3></div><button class="text-btn" data-goto="goals">Kelola target ↗</button></div>
+          <div id="goalPreview" class="goal-preview-content"><span class="goal-emoji">🎯</span><div><b>Belum ada target</b><p>Buat target kecil supaya menabung terasa lebih terarah.</p></div></div>
+        </section>
+      </section>
+
+      <section class="view" id="transactions">
+        <div class="section-intro"><div><p class="muted">Semua catatan uang masuk dan keluar.</p><h2>Riwayat transaksi</h2></div><button class="primary-btn" id="addTransaction">＋ Tambah</button></div>
+        <section class="panel"><div class="filter-row"><span class="eyebrow">SEMUA AKTIVITAS</span><select id="filterType"><option value="all">Semua transaksi</option><option value="income">Uang masuk</option><option value="expense">Uang keluar</option></select></div><div id="allList" class="transaction-list"></div></section>
+      </section>
+
+      <section class="view" id="goals">
+        <div class="section-intro"><div><p class="muted">Sisihkan sedikit demi sedikit.</p><h2>Target tabungan</h2></div><button class="primary-btn" id="addGoal">＋ Buat target</button></div>
+        <div id="goalList" class="goals-grid"></div>
+      </section>
+
+      <footer>SAKU <span>•</span> Catat dengan sadar, gunakan dengan bijak.</footer>
+    </main>
+  </div>
+
+  <dialog id="transactionDialog" class="modal">
+    <form id="transactionForm">
+      <div class="modal-head"><div><span class="eyebrow">CATAT UANG</span><h3>Transaksi baru</h3></div><button type="button" class="close-btn" data-close="transactionDialog">×</button></div>
+      <label>Jenis transaksi</label><div class="type-switch"><label><input type="radio" name="type" value="income" checked><span>↗ Uang masuk</span></label><label><input type="radio" name="type" value="expense"><span>↘ Uang keluar</span></label></div>
+      <label for="txTitle">Nama transaksi</label><input id="txTitle" required maxlength="45" placeholder="Contoh: Uang saku mingguan">
+      <label for="txAmount">Nominal (Rp)</label><input id="txAmount" required type="number" min="1" step="1" placeholder="25000">
+      <label for="txCategory">Kategori</label><select id="txCategory"><option>Uang saku</option><option>Makanan</option><option>Transportasi</option><option>Sekolah</option><option>Hiburan</option><option>Tabungan</option><option>Lainnya</option></select>
+      <label for="txDate">Tanggal</label><input id="txDate" type="date" required>
+      <button class="primary-btn full-btn" type="submit">Simpan transaksi</button>
+    </form>
+  </dialog>
+
+  <dialog id="goalDialog" class="modal">
+    <form id="goalForm">
+      <div class="modal-head"><div><span class="eyebrow">RENCANA KECIL</span><h3>Target baru</h3></div><button type="button" class="close-btn" data-close="goalDialog">×</button></div>
+      <label for="goalName">Nama target</label><input id="goalName" required maxlength="40" placeholder="Contoh: Beli buku">
+      <label for="goalAmount">Target nominal (Rp)</label><input id="goalAmount" type="number" min="1" required placeholder="150000">
+      <label for="goalSaved">Sudah terkumpul (Rp)</label><input id="goalSaved" type="number" min="0" value="0" required>
+      <button class="primary-btn full-btn" type="submit">Buat target</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

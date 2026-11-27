@@ -1,0 +1,9 @@
+{
+  "name": "Saku — Keuangan Pelajar",
+  "short_name": "Saku",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#101b2d",
+  "description": "Catatan uang saku dan target tabungan pelajar."
+}
