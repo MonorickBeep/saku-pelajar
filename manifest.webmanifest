@@ -1,9 +1,18 @@
 {
   "name": "Saku — Keuangan Pelajar",
   "short_name": "Saku",
+  "description": "Catatan uang saku dan target tabungan pelajar.",
+  "lang": "id",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f5f7fb",
-  "theme_color": "#101b2d",
-  "description": "Catatan uang saku dan target tabungan pelajar."
+  "orientation": "portrait",
+  "background_color": "#f3f6fb",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
 }

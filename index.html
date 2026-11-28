@@ -3,98 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101b2d">
-  <meta name="description" content="Catatan uang saku dan tabungan pelajar.">
+  <meta name="theme-color" content="#1d4ed8">
+  <meta name="description" content="Catatan uang saku dan target tabungan pelajar.">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="style.css">
   <title>Saku — Keuangan Pelajar</title>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <a class="brand" href="#"><span class="brand-mark">s.</span><span>Saku<span class="brand-dot">.</span></span></a>
-      <p class="side-label">MENU UTAMA</p>
-      <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span> Ringkasan</button>
-      <button class="nav-item" data-view="transactions"><span class="nav-icon">↕</span> Transaksi</button>
-      <button class="nav-item" data-view="goals"><span class="nav-icon">◎</span> Target tabungan</button>
-      <div class="sidebar-bottom">
-        <div class="tip-card"><span class="tip-spark">✦</span><b>Tips kecil</b><p>Konsisten mencatat lebih penting daripada nominal yang besar.</p></div>
-        <span class="side-foot">Dibuat untuk mengatur uang saku ✳</span>
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <div><div class="eyebrow" id="todayLabel">KEUANGAN PRIBADI</div><h1 id="pageTitle">Ringkasan</h1></div>
-        <button class="avatar" title="Profil">H</button>
-      </header>
-
-      <section class="view active" id="overview">
-        <div class="welcome-row">
-          <div><p class="muted">Halo! Yuk cek kondisi uang sakumu.</p><h2>Atur uangmu, <em>atur rencanamu.</em></h2></div>
-          <button class="primary-btn" id="addTop">＋ Catat transaksi</button>
-        </div>
-        <div class="stats-grid">
-          <article class="stat-card balance-card"><div class="stat-head"><span>Total saldo</span><span class="stat-icon">◈</span></div><div class="amount" id="balance">Rp0</div><div class="stat-note"><span class="tiny-dot"></span> Saldo dari semua catatan</div></article>
-          <article class="stat-card income-card"><div class="stat-head"><span>Uang masuk</span><span class="stat-icon">↗</span></div><div class="amount" id="income">Rp0</div><div class="stat-note">Bulan ini</div></article>
-          <article class="stat-card expense-card"><div class="stat-head"><span>Uang keluar</span><span class="stat-icon">↘</span></div><div class="amount" id="expense">Rp0</div><div class="stat-note">Bulan ini</div></article>
+  <div class="app">
+    <main id="main">
+      <!-- ============ BERANDA ============ -->
+      <section class="view active" id="view-home" aria-label="Beranda">
+        <div class="hero">
+          <div class="hero-top">
+            <div class="brand"><span class="brand-mark">S</span><span>SAKU</span></div>
+            <button class="avatar" data-action="profile" id="avatarBtn" aria-label="Profil">P</button>
+          </div>
+          <p class="hero-greet"><span id="greetText">Halo</span>, <b id="greetName">pelajar</b> 👋</p>
+          <div class="hero-balance">
+            <span class="hero-label">Total saldo</span>
+            <div class="balance-row">
+              <strong id="balance" class="balance">Rp0</strong>
+              <button class="eye-btn" data-action="toggle-balance" id="eyeBtn" aria-label="Sembunyikan saldo"></button>
+            </div>
+          </div>
         </div>
 
-        <div class="content-grid">
-          <section class="panel activity-panel">
-            <div class="panel-heading"><div><span class="eyebrow">AKTIVITAS</span><h3>Transaksi terbaru</h3></div><button class="text-btn" data-goto="transactions">Lihat semua ↗</button></div>
-            <div id="recentList" class="transaction-list"><div class="empty-state">Belum ada transaksi. Catat uang masuk atau keluar pertamamu.</div></div>
-          </section>
-          <section class="panel budget-panel">
-            <div class="panel-heading"><div><span class="eyebrow">KEBIASAAN BAIK</span><h3>Ringkasan bulan ini</h3></div><span class="round-icon">✦</span></div>
-            <div class="budget-graphic"><div class="donut" id="donut"><div><b id="spentPercent">0%</b><small>terpakai</small></div></div></div>
-            <div class="legend-row"><span><i class="legend income-legend"></i> Masuk</span><b id="legendIncome">Rp0</b></div>
-            <div class="legend-row"><span><i class="legend expense-legend"></i> Keluar</span><b id="legendExpense">Rp0</b></div>
-            <p class="small-note">Angka ini dihitung dari transaksi yang kamu catat pada bulan berjalan.</p>
-          </section>
+        <div class="card quick-card">
+          <button class="quick" data-action="add-tx" data-type="income"><span class="quick-ic income" data-ic="down"></span><span>Pemasukan</span></button>
+          <button class="quick" data-action="add-tx" data-type="expense"><span class="quick-ic expense" data-ic="up"></span><span>Pengeluaran</span></button>
+          <button class="quick" data-action="quick-save"><span class="quick-ic save" data-ic="piggy"></span><span>Tabung</span></button>
+          <button class="quick" data-action="goto" data-view="report"><span class="quick-ic report" data-ic="chart"></span><span>Laporan</span></button>
         </div>
-        <section class="panel goal-preview">
-          <div class="panel-heading"><div><span class="eyebrow">LANGKAH BERIKUTNYA</span><h3>Target tabungan</h3></div><button class="text-btn" data-goto="goals">Kelola target ↗</button></div>
-          <div id="goalPreview" class="goal-preview-content"><span class="goal-emoji">🎯</span><div><b>Belum ada target</b><p>Buat target kecil supaya menabung terasa lebih terarah.</p></div></div>
-        </section>
+
+        <div class="section">
+          <div class="sec-head"><h2>Ringkasan <span id="homeMonthName">bulan ini</span></h2></div>
+          <div class="card month-card" id="homeMonth"></div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head"><h2>Transaksi terbaru</h2><button class="link-btn" data-action="goto" data-view="tx">Lihat semua</button></div>
+          <div class="card list-card" id="recentList"></div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head"><h2>Target tabungan</h2><button class="link-btn" data-action="goto" data-view="goals">Kelola</button></div>
+          <div id="homeGoals"></div>
+        </div>
       </section>
 
-      <section class="view" id="transactions">
-        <div class="section-intro"><div><p class="muted">Semua catatan uang masuk dan keluar.</p><h2>Riwayat transaksi</h2></div><button class="primary-btn" id="addTransaction">＋ Tambah</button></div>
-        <section class="panel"><div class="filter-row"><span class="eyebrow">SEMUA AKTIVITAS</span><select id="filterType"><option value="all">Semua transaksi</option><option value="income">Uang masuk</option><option value="expense">Uang keluar</option></select></div><div id="allList" class="transaction-list"></div></section>
+      <!-- ============ TRANSAKSI ============ -->
+      <section class="view" id="view-tx" aria-label="Transaksi">
+        <header class="page-head"><h1>Transaksi</h1><p>Semua catatan uang masuk dan keluar</p></header>
+        <div class="filters">
+          <label class="search"><span id="searchIc"></span><input id="txSearch" type="search" placeholder="Cari nama, kategori, catatan" autocomplete="off" aria-label="Cari transaksi"></label>
+          <div class="chips" role="group" aria-label="Filter jenis">
+            <button class="chip active" data-action="filter-type" data-value="all">Semua</button>
+            <button class="chip" data-action="filter-type" data-value="income">Masuk</button>
+            <button class="chip" data-action="filter-type" data-value="expense">Keluar</button>
+          </div>
+          <select id="txMonth" class="select-sm" aria-label="Filter bulan"></select>
+        </div>
+        <div class="tx-summary" id="txSummary"></div>
+        <div id="allList"></div>
       </section>
 
-      <section class="view" id="goals">
-        <div class="section-intro"><div><p class="muted">Sisihkan sedikit demi sedikit.</p><h2>Target tabungan</h2></div><button class="primary-btn" id="addGoal">＋ Buat target</button></div>
-        <div id="goalList" class="goals-grid"></div>
+      <!-- ============ TARGET ============ -->
+      <section class="view" id="view-goals" aria-label="Target tabungan">
+        <header class="page-head with-btn"><div><h1>Target tabungan</h1><p>Sisihkan sedikit demi sedikit</p></div><button class="btn small" data-action="add-goal" id="addGoalBtn"></button></header>
+        <div id="goalsSummary"></div>
+        <div id="goalList"></div>
       </section>
 
-      <footer>SAKU <span>•</span> Catat dengan sadar, gunakan dengan bijak.</footer>
+      <!-- ============ LAPORAN ============ -->
+      <section class="view" id="view-report" aria-label="Laporan keuangan">
+        <header class="page-head"><h1>Laporan</h1><p>Dihitung dari transaksi yang kamu catat</p></header>
+        <div class="card total-card" id="reportTotals"></div>
+        <div class="month-stepper">
+          <button class="step-btn" data-action="report-prev" aria-label="Bulan sebelumnya" id="prevMonth"></button>
+          <strong id="reportMonthLabel">—</strong>
+          <button class="step-btn" data-action="report-next" aria-label="Bulan berikutnya" id="nextMonth"></button>
+        </div>
+        <div class="card" id="reportMonth"></div>
+        <div class="section"><div class="sec-head"><h2>Pemasukan vs pengeluaran</h2></div><div class="card" id="reportChart"></div></div>
+        <div class="section"><div class="sec-head"><h2>Pengeluaran per kategori</h2></div><div class="card" id="reportCats"></div></div>
+      </section>
     </main>
+
+    <nav class="bottom-nav" aria-label="Navigasi utama">
+      <button class="nav-btn active" data-action="nav" data-view="home"><span class="nav-ic" data-ic="home"></span><span class="nav-label">Beranda</span></button>
+      <button class="nav-btn" data-action="nav" data-view="tx"><span class="nav-ic" data-ic="list"></span><span class="nav-label">Transaksi</span></button>
+      <button class="nav-fab" data-action="add-tx" data-type="expense" aria-label="Tambah transaksi"><span data-ic="plus"></span></button>
+      <button class="nav-btn" data-action="nav" data-view="goals"><span class="nav-ic" data-ic="target"></span><span class="nav-label">Target</span></button>
+      <button class="nav-btn" data-action="nav" data-view="report"><span class="nav-ic" data-ic="chart"></span><span class="nav-label">Laporan</span></button>
+    </nav>
   </div>
 
-  <dialog id="transactionDialog" class="modal">
-    <form id="transactionForm">
-      <div class="modal-head"><div><span class="eyebrow">CATAT UANG</span><h3>Transaksi baru</h3></div><button type="button" class="close-btn" data-close="transactionDialog">×</button></div>
-      <label>Jenis transaksi</label><div class="type-switch"><label><input type="radio" name="type" value="income" checked><span>↗ Uang masuk</span></label><label><input type="radio" name="type" value="expense"><span>↘ Uang keluar</span></label></div>
-      <label for="txTitle">Nama transaksi</label><input id="txTitle" required maxlength="45" placeholder="Contoh: Uang saku mingguan">
-      <label for="txAmount">Nominal</label><input id="txAmount" required type="text" inputmode="decimal" placeholder="15 = Rp15.000">
-      <label for="txCategory">Kategori</label><select id="txCategory"><option>Uang saku</option><option>Makanan</option><option>Transportasi</option><option>Sekolah</option><option>Hiburan</option><option>Tabungan</option><option>Lainnya</option></select>
-      <label for="txDate">Tanggal</label><input id="txDate" type="date" required>
-      <button class="primary-btn full-btn" type="submit">Simpan transaksi</button>
+  <!-- ============ Transaction sheet (add + edit) ============ -->
+  <dialog id="txSheet" class="sheet" aria-labelledby="txSheetTitle">
+    <form id="txForm" novalidate autocomplete="off">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><h3 id="txSheetTitle">Tambah transaksi</h3><button type="button" class="icon-btn" data-close="txSheet" aria-label="Tutup" data-ic="close"></button></div>
+      <div class="type-switch" role="radiogroup" aria-label="Jenis transaksi">
+        <label><input type="radio" name="type" value="income"><span class="t-income">Pemasukan</span></label>
+        <label><input type="radio" name="type" value="expense" checked><span class="t-expense">Pengeluaran</span></label>
+      </div>
+      <div class="field">
+        <label for="txAmount">Nominal</label>
+        <div class="amount-input"><span>Rp</span><input id="txAmount" inputmode="text" placeholder="0" autocomplete="off" aria-describedby="txAmountPreview"></div>
+        <div class="amount-tools"><button type="button" class="mini-chip" data-action="suffix" data-target="txAmount" data-suffix="k">+ rb (k)</button><button type="button" class="mini-chip" data-action="suffix" data-target="txAmount" data-suffix="jt">+ juta (jt)</button><span class="preview" id="txAmountPreview">Contoh: 15 = Rp15.000, 1jt = Rp1.000.000</span></div>
+        <small class="err" data-err="amount"></small>
+      </div>
+      <div class="field"><label for="txTitle">Nama transaksi</label><input id="txTitle" maxlength="45" placeholder="Contoh: Jajan kantin"><small class="err" data-err="title"></small></div>
+      <div class="row2">
+        <div class="field"><label for="txCategory">Kategori</label><select id="txCategory"></select><small class="err" data-err="category"></small></div>
+        <div class="field"><label for="txDate">Tanggal</label><input id="txDate" type="date"><small class="err" data-err="date"></small></div>
+      </div>
+      <div class="field"><label for="txNote">Catatan <em>(opsional)</em></label><textarea id="txNote" rows="2" maxlength="120" placeholder="Tambahkan catatan…"></textarea><small class="err" data-err="note"></small></div>
+      <small class="err form-err" data-err="_form"></small>
+      <div class="sheet-actions"><button type="button" class="btn danger-outline" id="txDelete" data-action="delete-from-sheet" hidden>Hapus</button><button class="btn primary grow" type="submit" id="txSubmit">Simpan</button></div>
     </form>
   </dialog>
 
-  <dialog id="goalDialog" class="modal">
-    <form id="goalForm">
-      <div class="modal-head"><div><span class="eyebrow">RENCANA KECIL</span><h3>Target baru</h3></div><button type="button" class="close-btn" data-close="goalDialog">×</button></div>
-      <label for="goalName">Nama target</label><input id="goalName" required maxlength="40" placeholder="Contoh: Beli buku">
-      <label for="goalAmount">Target nominal</label><input id="goalAmount" type="text" inputmode="decimal" required placeholder="150 = Rp150.000 / 1jt = Rp1.000.000">
-      <label for="goalSaved">Sudah terkumpul</label><input id="goalSaved" type="text" inputmode="decimal" value="0" required placeholder="Contoh: 15 atau 1jt"><small class="input-hint">Ketik 15 untuk Rp15.000, 150 untuk Rp150.000, atau 1jt untuk Rp1.000.000.</small>
-      <button class="primary-btn full-btn" type="submit">Buat target</button>
+  <!-- ============ Goal sheet (add + edit) ============ -->
+  <dialog id="goalSheet" class="sheet" aria-labelledby="goalSheetTitle">
+    <form id="goalForm" novalidate autocomplete="off">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><h3 id="goalSheetTitle">Target baru</h3><button type="button" class="icon-btn" data-close="goalSheet" aria-label="Tutup" data-ic="close"></button></div>
+      <div class="field"><label for="goalName">Nama target</label><input id="goalName" maxlength="40" placeholder="Contoh: Beli buku"><small class="err" data-err="name"></small></div>
+      <div class="field">
+        <label for="goalTarget">Target nominal</label>
+        <div class="amount-input"><span>Rp</span><input id="goalTarget" inputmode="text" placeholder="0"></div>
+        <div class="amount-tools"><button type="button" class="mini-chip" data-action="suffix" data-target="goalTarget" data-suffix="k">+ rb (k)</button><button type="button" class="mini-chip" data-action="suffix" data-target="goalTarget" data-suffix="jt">+ juta (jt)</button><span class="preview" id="goalTargetPreview"></span></div>
+        <small class="err" data-err="target"></small>
+      </div>
+      <div class="field">
+        <label for="goalSaved">Sudah terkumpul</label>
+        <div class="amount-input"><span>Rp</span><input id="goalSaved" inputmode="text" placeholder="0"></div>
+        <div class="amount-tools"><span class="preview" id="goalSavedPreview"></span></div>
+        <small class="err" data-err="saved"></small>
+      </div>
+      <small class="err form-err" data-err="_form"></small>
+      <div class="sheet-actions"><button class="btn primary grow" type="submit" id="goalSubmit">Simpan target</button></div>
     </form>
   </dialog>
-  <div id="toast" class="toast" role="status"></div>
-  <script src="app.js"></script>
+
+  <!-- ============ Add savings sheet ============ -->
+  <dialog id="saveSheet" class="sheet" aria-labelledby="saveSheetTitle">
+    <form id="saveForm" novalidate autocomplete="off">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><h3 id="saveSheetTitle">Tambah tabungan</h3><button type="button" class="icon-btn" data-close="saveSheet" aria-label="Tutup" data-ic="close"></button></div>
+      <div class="field"><label for="saveGoal">Target</label><select id="saveGoal"></select></div>
+      <div class="field">
+        <label for="saveAmount">Nominal</label>
+        <div class="amount-input"><span>Rp</span><input id="saveAmount" inputmode="text" placeholder="0"></div>
+        <div class="amount-tools"><button type="button" class="mini-chip" data-action="suffix" data-target="saveAmount" data-suffix="k">+ rb (k)</button><button type="button" class="mini-chip" data-action="suffix" data-target="saveAmount" data-suffix="jt">+ juta (jt)</button><span class="preview" id="saveAmountPreview"></span></div>
+        <small class="err" data-err="amount"></small>
+      </div>
+      <label class="check"><input type="checkbox" id="saveDeduct" checked><span>Potong dari saldo <small id="saveBalanceHint"></small></span></label>
+      <small class="err form-err" data-err="_form"></small>
+      <div class="sheet-actions"><button class="btn primary grow" type="submit">Tabung sekarang</button></div>
+    </form>
+  </dialog>
+
+  <!-- ============ Profile sheet ============ -->
+  <dialog id="profileSheet" class="sheet" aria-labelledby="profileTitle">
+    <form id="profileForm" novalidate autocomplete="off">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><h3 id="profileTitle">Profil</h3><button type="button" class="icon-btn" data-close="profileSheet" aria-label="Tutup" data-ic="close"></button></div>
+      <div class="field"><label for="profileName">Nama panggilan</label><input id="profileName" maxlength="24" placeholder="Contoh: Hafiz"></div>
+      <p class="muted-note">Data tersimpan di perangkat ini saja (localStorage). Menghapus data aplikasi atau cache browser akan menghapus catatanmu.</p>
+      <div class="sheet-actions"><button class="btn primary grow" type="submit">Simpan</button></div>
+    </form>
+  </dialog>
+
+  <!-- ============ Confirm sheet ============ -->
+  <dialog id="confirmSheet" class="sheet confirm" aria-labelledby="confirmTitle">
+    <div class="sheet-grip"></div>
+    <div class="confirm-ic" data-ic="trash"></div>
+    <h3 id="confirmTitle">Hapus?</h3>
+    <p id="confirmText"></p>
+    <div class="sheet-actions"><button type="button" class="btn ghost grow" data-close="confirmSheet">Batal</button><button type="button" class="btn danger grow" id="confirmOk">Ya, hapus</button></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
